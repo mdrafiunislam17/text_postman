@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TodoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +16,24 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+
+//Route::get('testing',function(){
+//    return 'this is testing api';
+//});
+//
+//Route::get('products/index',[ProductController::class, 'index']);
+//
+//Route::post('products/store',[ProductController::class, 'store']);
+//Route::put('products/edit/{id}', [ProductController::class, 'edit']);
+//Route::delete('products/delete/{id}', [ProductController::class, 'delete']);
+
+
+Route::get('/user',function (Request $request){
     return $request->user();
-});
+})->middleware('auth:sanctum');
 
-
-Route::get('testing',function(){
-    return 'this is testing api';
-});
-
-Route::get('products/index',[ProductController::class, 'index']);
-
-Route::post('products/store',[ProductController::class, 'store']);
-Route::put('products/edit/{id}', [ProductController::class, 'edit']);
-Route::delete('products/delete/{id}', [ProductController::class, 'delete']);
+Route::resource('todo',TodoController::class);
