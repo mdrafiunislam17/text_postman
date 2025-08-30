@@ -2,24 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TodoCollection;
+use App\Http\Resources\TodoResource;
 use App\Models\Todo;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Index
      */
-    public function index()
+    public function index(): TodoCollection
     {
         //
 
-        return Todo::all();
+//        return Todo::all();
+
+//        return TodoResource::collection(Todo::all());
+
+        return new TodoCollection(Todo::all());
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create
      */
     public function create()
     {
@@ -27,9 +34,9 @@ class TodoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         //
 
@@ -60,40 +67,79 @@ class TodoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show
      */
-    public function show(string $id)
+    public function show(Todo $todo)
     {
         //
+
+        return new TodoResource($todo);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Edit
      */
-    public function edit(string $id)
+    public function edit(Todo $todo)
     {
         //
+        return new TodoResource($todo);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Todo $todo): RedirectResponse
     {
-        //
+        try {
+            $todo->fill([
+                "description" => $request->input("description"),
+                "status" => $request->input("status"),
+            ]);
 
+            $todo->save();
+        } catch (QueryException $exception) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with("error", "QueryException code: " . $exception->getCode());
+        }
 
-
-
-
-
+        return redirect()->back()->with("success", "Todo has been updated successfully.");
     }
 
+//public function update (Request $request, string $id): RedirectResponse
+//{
+//    $todo = Todo::find($id);
+//    if (!$todo) {
+//        return redirect()
+//            ->back()
+//            ->withInput()
+//            ->with("error", "Todo not found.");
+//    }
+//
+//    try {
+//        $todo->fill([
+//            "description" => $request->input("description"),
+//            "status" => $request->input("status"),
+//        ]);
+//
+//        $todo->save();
+//    } catch (QueryException $exception) {
+//        return redirect()
+//            ->back()
+//            ->withInput()
+//            ->with("error", "QueryException code: " . $exception->getCode());
+//    }
+//
+//    return redirect()->back()->with("success", "Todo has been updated successfully.");
+//}
     /**
-     * Remove the specified resource from storage.
+     * Destroy
      */
-    public function destroy(string $id)
+    public function destroy(Todo $todo): RedirectResponse
     {
-        //
+        $todo->delete();
+
+        return redirect()->back()->with("success", "Todo has been deleted successfully.");
     }
 }

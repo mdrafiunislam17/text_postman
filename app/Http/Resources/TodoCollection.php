@@ -14,6 +14,21 @@ class TodoCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+//        return parent::toArray($request);
+
+        return [
+            'data' => $this->collection->map(function ($todo) {
+                return [
+                    'id'          => $todo->id,
+                    'description' => $todo->description,
+                    'status'      => $todo->status,
+                    'created_at'  => $todo->created_at->toDateTimeString(),
+                ];
+            }),
+            'meta' => [
+                'total' => $this->collection->count(),
+            ]
+        ];
+
     }
 }
