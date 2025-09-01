@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 05:34 PM
+-- Generation Time: Sep 01, 2025 at 05:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,7 +58,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2025_08_24_145508_create_products_table', 1);
+(5, '2025_08_24_145508_create_products_table', 1),
+(6, '2025_08_29_151042_create_todos_table', 2);
 
 -- --------------------------------------------------------
 
@@ -120,6 +121,30 @@ INSERT INTO `products` (`id`, `name`, `price`, `quantity`, `created_at`, `update
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `todos`
+--
+
+CREATE TABLE `todos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `description` longtext NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `todos`
+--
+
+INSERT INTO `todos` (`id`, `description`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Asif', 1, '2025-08-30 08:08:07', '2025-08-31 09:36:43'),
+(3, 'my name', 1, '2025-08-31 09:36:14', '2025-08-31 09:36:14'),
+(4, '<p>Hassen Ali&nbsp; jhlkh</p>', 1, '2025-09-01 09:18:12', '2025-09-01 09:22:28'),
+(5, '<p>jhjhjhf gfhj&nbsp;</p>', 1, '2025-09-01 09:19:13', '2025-09-01 09:22:46');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -172,6 +197,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `todos`
+--
+ALTER TABLE `todos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -192,7 +223,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -204,7 +235,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `todos`
+--
+ALTER TABLE `todos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
