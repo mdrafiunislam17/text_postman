@@ -8,13 +8,14 @@ use App\Models\Todo;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TodoController extends Controller
 {
     /**
      * Index
      */
-    public function index(): TodoCollection
+    public function index(): View
     {
         //
 
@@ -22,15 +23,19 @@ class TodoController extends Controller
 
 //        return TodoResource::collection(Todo::all());
 
-        return new TodoCollection(Todo::all());
+//        return new TodoCollection(Todo::all());
+
+        $todos = Todo::all();
+        return view('admin.todo.index', compact('todos'));
     }
 
     /**
      * Create
      */
-    public function create()
+    public function create(): View
     {
         //
+        return view('admin.todo.create');
     }
 
     /**
@@ -52,10 +57,7 @@ class TodoController extends Controller
                 "status" => $request->input("status"),
             ]);
 
-
-
-
-            $todo->save();
+        $todo->save();
         } catch (QueryException $exception) {
             return redirect()
                 ->back()
@@ -63,7 +65,7 @@ class TodoController extends Controller
                 ->with("error", "QueryException code: " . $exception->getCode());
         }
 
-        return redirect()->back()->with("success", "Todo has been inserted successfully.");
+        return redirect()->route('todo.index')->with("success", "Todo has been inserted successfully.");
     }
 
     /**
@@ -73,7 +75,8 @@ class TodoController extends Controller
     {
         //
 
-        return new TodoResource($todo);
+//        return new TodoResource($todo);
+        return view('admin.todo.show', compact('todo'));
     }
 
     /**
@@ -82,7 +85,9 @@ class TodoController extends Controller
     public function edit(Todo $todo)
     {
         //
-        return new TodoResource($todo);
+//        return new TodoResource($todo);
+
+        return view('admin.todo.edit', compact('todo'));
     }
 
     /**
@@ -104,7 +109,7 @@ class TodoController extends Controller
                 ->with("error", "QueryException code: " . $exception->getCode());
         }
 
-        return redirect()->back()->with("success", "Todo has been updated successfully.");
+        return redirect()->route('todo.index')->with("success", "Todo has been updated successfully.");
     }
 
 //public function update (Request $request, string $id): RedirectResponse
