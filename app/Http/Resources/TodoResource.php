@@ -10,16 +10,16 @@ class TodoResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
+     * @param Request $request
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'description' => $this->description,
-            'status'      => (bool) $this->status,  // true/false আকারে
-            'created_at'  => $this->created_at->toDateTimeString(),
-            'updated_at'  => $this->updated_at->toDateTimeString(),
+            'id' => $this->__get('id'),
+            'description' => $this->__get('description'),
+            'created_at' => $this->__get('created_at')?->toDateTimeString(),
+            'updated_at' => $this->__get('updated_at')?->toDateTimeString(),
         ];
     }
 }
